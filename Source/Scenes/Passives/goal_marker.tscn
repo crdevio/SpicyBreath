@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Assets/Objects/hexagram.png" type="Texture" id=1]
+[ext_resource path="res://Scenes/Passives/goal_marker.gd" type="Script" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 16, 16 )
+
+[node name="GoalMarker" type="Area2D"]
+modulate = Color( 1, 0, 0, 1 )
+self_modulate = Color( 1, 0, 0, 1 )
+script = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_left = -14.0
+margin_top = -14.0
+margin_right = 15.0
+margin_bottom = 15.0
+texture = ExtResource( 1 )
+
+[connection signal="body_entered" from="." to="." method="_on_GoalMarker_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_GoalMarker_body_exited"]

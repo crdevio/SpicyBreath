@@ -1,0 +1,58 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Assets/Effects/Windball/Wind Breath.png" type="Texture" id=1]
+[ext_resource path="res://Entities/Power/wind/Windball/Windball.gd" type="Script" id=2]
+
+[sub_resource type="Animation" id=2]
+resource_name = "blowing"
+length = 1.15
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
+}
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 6.875, 9 )
+
+[node name="Windball" type="KinematicBody2D" groups=["spell_wind"]]
+collision_layer = 6
+collision_mask = 6
+script = ExtResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( -2, 1 )
+texture = ExtResource( 1 )
+hframes = 12
+frame = 6
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/blowing = SubResource( 2 )
+
+[node name="Warmup" type="Timer" parent="."]
+wait_time = 0.4
+one_shot = true
+autostart = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 11.875, 5 )
+shape = SubResource( 3 )
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2( -22, 0 )
+cast_to = Vector2( 35, 0 )
+
+[node name="Death" type="Timer" parent="."]
+wait_time = 1.15
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Warmup" to="." method="_on_Warmup_timeout"]
+[connection signal="timeout" from="Death" to="." method="_on_Death_timeout"]

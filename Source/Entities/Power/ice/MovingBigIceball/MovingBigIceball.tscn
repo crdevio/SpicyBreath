@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Assets/Effects/IceVFX 1 Repeatable.png" type="Texture" id=1]
+[ext_resource path="res://Entities/Power/ice/MovingBigIceball/MovingBigIceball.gd" type="Script" id=2]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 1.375, 4.25 )
+
+[sub_resource type="Animation" id=1]
+resource_name = "Burning"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1.03526, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
+}
+
+[node name="MovingBigIceball" type="KinematicBody2D" groups=["spell", "spell_mirror"]]
+rotation = 3.14159
+scale = Vector2( 2, 2 )
+collision_layer = 6
+collision_mask = 6
+script = ExtResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+flip_h = true
+hframes = 10
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -10.375, 0.500003 )
+shape = SubResource( 2 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "Burning"
+anims/Burning = SubResource( 1 )
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+collision_mask = 4
+collide_with_bodies = false
